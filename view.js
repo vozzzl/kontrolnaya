@@ -30,7 +30,21 @@ class TripView {
       }
     });
   }
-
+  bindEditTrip(handler) {
+    this.tripList.addEventListener("click", event => {
+      id (event.target.classList.contains("edit-btn")){
+        const id = number(event.target.dataset.id);
+        this.showEditForm(id, handler);
+      }
+    });
+  }
+binddatefilter(handler){
+  [this.startfilter, this.endfilter].forEach(input => {
+    input.addEventListener("change", () => {
+      handler(this.startfilter.value, this.endfilter.value);
+    });
+  });
+}
   renderTrips(trips) {
     this.tripList.innerHTML = "";
 
@@ -46,6 +60,7 @@ class TripView {
           <strong>${trip.destination}</strong> — ${trip.date}
           <p>${trip.notes || ""}</p>
         </div>
+        <button class="edit-btn" data-id="${trip.id}">Редактировать</button>
         <button class="delete-btn" data-id="${trip.id}">Удалить</button>
       `;
       this.tripList.appendChild(li);
